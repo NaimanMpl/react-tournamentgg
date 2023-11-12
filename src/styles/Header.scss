@@ -1,0 +1,31 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--padding);
+    position: relative;
+
+    .header-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    nav {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    ul {
+        display: flex;
+        gap: 5rem;
+
+        li a {
+            color: var(--white);
+            font-weight: 500;
+            font-size: 1.2rem;
+        }
+    }
+}
