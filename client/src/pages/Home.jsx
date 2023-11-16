@@ -8,9 +8,6 @@ import '../styles/Home.scss';
 const Home = () => {
 
 	const [ loading, setLoading ] = useState(true);
-	const titleRef1 = useState(null);
-	const titleRef2 = useState(null);
-	const titleRef3 = useState(null);
 	
 	return (
 		<div id="home">
@@ -21,13 +18,13 @@ const Home = () => {
 					<section id="hero">
 						<div className="hero-container">
 							<div className="title-container">
-								<h1 ref={titleRef1}>Parce que votre</h1>
+								<h1>Parce que votre</h1>
 							</div>
 							<div className="title-container">
-								<h1 ref={titleRef2}>basket ne s'arrête</h1>
+								<h1>basket ne s'arrête</h1>
 							</div>
 							<div className="title-container">
-								<h1 ref={titleRef3}>jamais.</h1>
+								<h1>jamais.</h1>
 							</div>
 							<p>Même sous la pluie, un Dimanche, à tout moment, le coach des Lakers peut admirer le joueur qui sommeille en vous </p>
 						</div>

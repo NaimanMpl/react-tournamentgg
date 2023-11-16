@@ -1,5 +1,13 @@
 import { NextFunction, Request, Response } from "express";
-import User, { RegisterationRequest } from "../interfaces/user.interface";
+import jwt from 'jsonwebtoken';
+import UserController from "../controllers/user.controller";
+import User, { RegisterationRequest, UserCredentials } from "../interfaces/user.interface";
+
+declare module 'express-serve-static-core' {
+    interface Request {
+      token: string
+    }
+}
 
 class AuthMiddleware {
 
@@ -11,6 +19,21 @@ class AuthMiddleware {
     private validatePassword = (password: string) => {
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
         return password.length >= 8 && passwordRegex.test(password);
+    }
+
+    private validateToken = (req: Request, res: Response, next: NextFunction) => {
+        const token = req.headers['authorization'];
+        if (token == null) {
+            return res.status(401).json({ error: "Vous devez être authentifié pour accéder à cette ressource." });
+        }
+
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+            req.params.user = decoded.toString();
+        } catch (err) {
+            return res.status(401).json({"error": "Token invalide !"});
+        }
+        next();
     }
 
     public handleRegister = (req: Request, res: Response, next: NextFunction) => {
@@ -50,6 +73,30 @@ class AuthMiddleware {
 
         next();
     }
+
+    public handleLogin = async (req: Request, res: Response, next: NextFunction) => {
+
+        const user: UserCredentials = req.body;
+        
+        if (!user.login || !user.password || user.login.length === 0 || user.password.length === 0) {
+            return res.status(401).json({ "error" : "Identifiant ou mot de passe incorrect." });
+        }
+
+        const controller: UserController = new UserController();
+        const payload = await controller.findUniqueUserByLoginPassword(user.login, user.password);
+        
+        if (payload === null) {
+            return res.status(401).json({ error: "Identifiant ou mot de passe incorrect." });
+        }
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
+
+        req.token = token;
+
+        next();
+
+    }
+    
 }
 
 export default new AuthMiddleware();

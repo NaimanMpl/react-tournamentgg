@@ -1,0 +1,48 @@
+body {
+    background: var(--white);
+    color: var(--black);
+}
+
+#app {
+    height: 100vh;
+    overflow: hidden;
+}
+
+#registerpage {
+
+    padding: 5rem 8rem;
+    background: url('../assets/register-bg.svg');
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-size: 55%;
+    overflow: hidden;
+    height: 100%;
+
+    form {
+        margin-top: 4rem;
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        max-width: 40%;
+
+        label {
+            font-weight: 500;
+        }
+
+        #registerbtn {
+            margin-top: 2rem;
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            padding: .5rem 0;
+            cursor: pointer;
+        }
+    }
+
+    h1 {
+        margin-top: 2rem;
+        font-size: 3.5rem;
+    }
+
+}

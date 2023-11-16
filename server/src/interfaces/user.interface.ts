@@ -11,3 +11,8 @@ export interface RegisterationRequest {
     confirmPassword: string,
     email: string
 }
+
+export interface UserCredentials {
+    login: string,
+    password: string
+}
