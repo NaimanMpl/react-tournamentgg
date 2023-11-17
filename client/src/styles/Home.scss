@@ -1,11 +1,11 @@
-body {
-    background: var(--bg-color);
-    color: var(--white);
-}
-
 #home-wrapper {
     height: 100vh;
     position: relative;
+}
+
+#home {
+    background: var(--bg-color);
+    color: var(--white);
 }
 
 #hero {

@@ -1,15 +1,11 @@
-body {
-    background: var(--white);
-    color: var(--black);
-}
-
 #app {
     height: 100vh;
     overflow: hidden;
 }
 
 #registerpage {
-
+    background: var(--white);
+    color: var(--black);
     padding: 5rem 8rem;
     background: url('../assets/register-bg.svg');
     background-repeat: no-repeat;
@@ -27,7 +23,9 @@ body {
 
         label {
             font-weight: 500;
+            font-size: 1.2rem;
         }
+
 
         #registerbtn {
             margin-top: 2rem;
@@ -36,6 +34,7 @@ body {
             border: none;
             border-radius: 5px;
             padding: .5rem 0;
+            font-size: 1.2rem;
             cursor: pointer;
         }
     }

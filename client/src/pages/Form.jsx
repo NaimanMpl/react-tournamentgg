@@ -1,7 +1,7 @@
-const Form = ({ children }) => {
+const Form = ({ children, onSubmit }) => {
   
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       {children}
     </form>
   );

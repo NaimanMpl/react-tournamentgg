@@ -4,4 +4,9 @@
     padding: .5rem 0;
     background: transparent;
     border-bottom: 1px solid var(--black);
+    font-size: 1.2rem;
+
+    ::placeholder {
+        font-size: 1.2rem;
+    }
 }
