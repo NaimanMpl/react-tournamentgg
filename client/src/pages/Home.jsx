@@ -8,7 +8,7 @@ import '../styles/Home.scss';
 const Home = () => {
 
 	const [ loading, setLoading ] = useState(true);
-	
+
 	return (
 		<div id="home">
 			<div id="home-wrapper">
