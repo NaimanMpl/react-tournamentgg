@@ -14,7 +14,7 @@ export const useLoginModel = () => {
         resolve({ error: request.data.error });
       });
     }
-
+    
     return new Promise(resolve => {
       resolve({ response: request.response });
     });

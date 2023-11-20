@@ -57,3 +57,17 @@ export const fetchUserByLogin = async (login) => {
   );
   return response.json();
 }
+
+export const fetchEvents = async () => {
+  const response = await fetch(
+    `/api/event/all`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type' : 'application/json',
+        'Accept' : 'application/json'
+      }
+    }
+  );
+  return response.json();
+}

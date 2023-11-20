@@ -14,6 +14,7 @@ router.get('/all', async (req: Request, res: Response) => {
 
         res.status(200).json({events: events});
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error: "Le serveur a rencontré un problème." });
     }
 });
