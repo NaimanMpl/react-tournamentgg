@@ -28,7 +28,7 @@ router.post('/login', AuthMiddleware.handleLogin, async (req: Request, res: Resp
 
     res.cookie('token', token);
 
-    return res.status(301).redirect('/');
+    return res.status(301).json({ message: "Identification effectuée avec succès "});
 });
 
 router.get('/by-email', async (req: Request, res: Response) => {

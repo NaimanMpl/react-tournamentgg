@@ -101,7 +101,7 @@ const Register = () => {
     <div id="registerpage">
       <h1>S'inscrire.</h1>
       <p className='error'>{error}</p>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} className="register-form">
         <Input onChange={handleChange} ref={inputs.login.ref} type="text" label="Nom d'utilisateur" id="login" placeholder="john.doe" />
         <span style={{ color: 'red', fontSize: '0.8rem' }} ref={inputs.login.dialogRef} className="username-dialog"></span>
         <Input onChange={handleChange} ref={inputs.email.ref} type="text" label="Adresse email" id="email" placeholder="john.doe@gmail.com" />

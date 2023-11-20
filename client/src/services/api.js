@@ -16,6 +16,28 @@ export const registerUser = async (formData) => {
   return new Promise(resolve => resolve({ response: response, data: data }));
 }
 
+export const loginUser = async (formData) => {
+  const response = await fetch(
+    '/api/user/login',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json',
+        'Accept' : 'application/json'
+      },
+      body: JSON.stringify(formData)
+    }
+  );
+
+  if (response.status === 301) {
+    return new Promise(resolve => resolve({ response: response }));
+  } else {
+    const data = await response.json();
+    return new Promise(resolve => resolve({ response: response, data: data }));
+  }
+
+}
+
 export const fetchUserByEmail = async (email) => {
   const response = await fetch(
     `/api/user/by-email?email=${email}`,

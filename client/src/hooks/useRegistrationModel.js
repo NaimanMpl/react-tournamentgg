@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { fetchUserByEmail, fetchUserByLogin, registerUser } from "../services/api";
 
-export function useRegistrationModel() {
+export const useRegistrationModel = () => {
   const [ formData, setFormData ] = useState({
       login: '',
       email: '',

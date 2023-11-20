@@ -1,10 +1,16 @@
-const Form = ({ children, onSubmit }) => {
+import PropTypes from 'prop-types';
+
+const Form = ({ children, className, onSubmit }) => {
   
   return (
-    <form onSubmit={onSubmit}>
+    <form className={className} onSubmit={onSubmit}>
       {children}
     </form>
   );
+}
+
+Form.defaultProps = {
+  className: undefined
 }
 
 export default Form;

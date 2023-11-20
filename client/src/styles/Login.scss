@@ -3,7 +3,7 @@
     overflow: hidden;
 }
 
-#registerpage {
+#loginpage {
     background: var(--white);
     color: var(--black);
     padding: 5rem 8rem;
@@ -14,7 +14,7 @@
     overflow: hidden;
     height: 100%;
 
-    .register-form {
+    .login-form {
         margin-top: 4rem;
         display: flex;
         flex-direction: column;
@@ -26,7 +26,7 @@
             font-size: 1.2rem;
         }
 
-        #registerbtn {
+        #loginbtn {
             margin-top: 2rem;
             background: var(--black);
             color: var(--white);
@@ -42,5 +42,4 @@
         margin-top: 2rem;
         font-size: 3.5rem;
     }
-
 }
