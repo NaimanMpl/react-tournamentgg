@@ -27,13 +27,13 @@ const Event = () => {
   const { user, setUser } = useAuth();
 
   useEffect(() => {
-    if (user === null) {
+    if (!user.loggedIn) {
       setLoggedIn("Vous n'êtes pas connecté");
       return;
     }
     
     setLoggedIn(`Bienvenue ${user.login}`);
-    if (user.events.includes(parseInt(id))) setButtonLabel('Rejoint');
+    if (user.events.includes(parseInt(id))) setButtonLabel('Inscrit');
   }, [user]);
 
   useEffect(() => {
@@ -57,6 +57,10 @@ const Event = () => {
   }, []);
 
   const handleJoin = async () => {
+    if (!user.loggedIn) {
+      navigate('/login');
+      return;
+    }
     if (user.events.includes(parseInt(id))) {
       return;
     }
@@ -65,7 +69,6 @@ const Event = () => {
 
     if (response.code === 401 || response.code === 404) {
       setButtonLabel('Rejoindre');
-      navigate('/login');
       return;
     }
     

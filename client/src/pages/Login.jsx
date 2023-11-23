@@ -15,6 +15,13 @@ const Login = () => {
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
 
+  useEffect(() => {
+    console.log(user);
+    if (user.loggedIn) {
+      navigate('/');
+    }
+  }, [user]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({...formData, [name] : value});
