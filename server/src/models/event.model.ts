@@ -1,3 +1,4 @@
+import User from "../interfaces/user.interface";
 import { Game } from "./game.model";
 
 export class Event {
@@ -9,8 +10,9 @@ export class Event {
     private end: Date;
     private participant: number;
     private game: Game;
+    private users: Array<User>;
 
-    constructor(id: number, title: string, description: string, start: Date, end: Date, participant: number, game: Game) {
+    constructor(id: number, title: string, description: string, start: Date, end: Date, participant: number, game: Game, users: Array<User>) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -18,6 +20,7 @@ export class Event {
         this.end = end;
         this.participant = participant;
         this.game = game;
+        this.users = users;
     }
 
     public toArray = (): Object => {
@@ -28,7 +31,8 @@ export class Event {
             start: this.start.toISOString(),
             end: this.end.toISOString(),
             participant: this.participant,
-            game: this.game.toObject()
+            game: this.game.toObject(),
+            users: this.users
         }
     }
 

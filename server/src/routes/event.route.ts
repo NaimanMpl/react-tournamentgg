@@ -29,12 +29,8 @@ router.get('/:id/register/:userId', EventMiddleware.getEvent, async (req: Reques
     const event: Event = req.event;
 
     try {
-        const database: Database = new Database();
-        database.connect();
-        const pool: Pool = database.getConnection();
-        const query = "INSERT INTO participation_SE(id_participant, id_evenement) VALUES ($1, $2)";
-        
-        await pool.query(query, [req.params.userId, event.getId() ]);
+        const controller: EventController = new EventController();
+        controller.registerUser(event.getId(), parseInt(req.params.userId));
 
         res.status(200).json({ message: "Le joueur a été inscrit avec succès !" });
     } catch (error) {

@@ -8,7 +8,7 @@ const Header = ({ color }) => {
       <nav>
         <ul>
           <li><a style={{ color: color }} href="#">Tournois</a></li>
-          <li><a style={{ color: color }} href="#">Evenements</a></li>
+          <li><a style={{ color: color }} href="/events">Evenements</a></li>
           <li><a style={{ color: color }} href="#">A propos</a></li>
         </ul>
       </nav>

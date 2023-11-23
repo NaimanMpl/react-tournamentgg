@@ -1,11 +1,14 @@
 import { NextFunction, Request, Response } from "express";
+import expressLimit, { rateLimit } from 'express-rate-limit';
 import jwt from 'jsonwebtoken';
 import UserController from "../controllers/user.controller";
 import User, { RegisterationRequest, UserCredentials } from "../interfaces/user.interface";
 
 declare module 'express-serve-static-core' {
     interface Request {
-      token: string
+      accessToken: string,
+      refreshToken: string,
+      user: User
     }
 }
 
@@ -21,18 +24,24 @@ class AuthMiddleware {
         return password.length >= 8 && passwordRegex.test(password);
     }
 
-    private validateToken = (req: Request, res: Response, next: NextFunction) => {
-        const token = req.headers['authorization'];
-        if (token == null) {
+    public validateToken = (req: Request, res: Response, next: NextFunction) => {
+        let accessToken = req.cookies.accessToken;
+
+        if (req.headers['authorization'] && req.headers['authorization'].startsWith('Bearer ')) {
+            accessToken = req.headers['authorization'].split(' ')[1];
+        }
+        
+        if (accessToken === undefined) {
             return res.status(401).json({ error: "Vous devez être authentifié pour accéder à cette ressource." });
         }
 
         try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-            req.params.user = decoded.toString();
+            const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+            req.user = decoded as User;
         } catch (err) {
             return res.status(401).json({"error": "Token invalide !"});
         }
+
         next();
     }
 
@@ -89,13 +98,25 @@ class AuthMiddleware {
             return res.status(401).json({ error: "Identifiant ou mot de passe incorrect." });
         }
 
-        const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
+        const accessToken = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: '1m' });
+        const refreshToken = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: '10h' });
 
-        req.token = token;
+        req.accessToken = accessToken;
+        req.refreshToken = refreshToken;
 
         next();
-
     }
+
+    public limitLogin = rateLimit({
+        windowMs: 60 * 1000,
+        max: 5,
+        message: { message: 'Trop de requêtes proviennent de cette adresse IP, veuillez réessayer plus tard.'},
+        handler: (req: Request, res: Response, next: NextFunction, options) => {
+            res.status(429).send(options.message)
+        },
+        standardHeaders: true,
+        legacyHeaders: false
+    });
     
 }
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
+import { useAuth } from "../contexts/AuthContext";
 import { useLoginModel } from "../hooks/useLoginModel";
 import '../styles/Login.scss';
 import Form from "./Form";
@@ -12,6 +13,7 @@ const Login = () => {
   const [ loading, setLoading ] = useState(false);
   const [ error, setError ] = useState('');
   const navigate = useNavigate();
+  const { user, setUser } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;

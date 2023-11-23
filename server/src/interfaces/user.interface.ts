@@ -2,7 +2,10 @@ export default interface User {
     id: number,
     login: string,
     password: string,
-    email: string
+    email: string,
+    wins: number,
+    looses: number,
+    points: number
 }
 
 export interface RegisterationRequest {

@@ -1,4 +1,5 @@
 import { Pool, QueryResult } from "pg";
+import User from "../interfaces/user.interface";
 import { Database } from "../models/database.model";
 import { Event } from "../models/event.model";
 import { Game } from "../models/game.model";
@@ -21,6 +22,8 @@ export class EventController {
         if (result.rowCount === 0) {
             return null;
         }
+
+        const users = await this.getUsers(parseInt(id));
         
         const row = result.rows[0];
         const event = new Event(
@@ -37,7 +40,8 @@ export class EventController {
                 row.description_jeu,
                 new Date(row.date_parution),
                 row.plateforme
-            )
+            ),
+            users
         );
 
         return event;
@@ -58,7 +62,9 @@ export class EventController {
 
         const events = [];
 
+        
         for (const row of result.rows) {
+            const users: User[] = await this.getUsers(row.id_evenement);
             const event = new Event(
                 row.id_evenement,
                 row.nom_evenement,
@@ -73,13 +79,45 @@ export class EventController {
                     row.description_jeu,
                     new Date(row.date_parution),
                     row.plateforme
-                )
+                ),
+                users
             );
 
             events.push(event.toArray());
         }
 
         return new Promise(resolve => resolve(events));
+    }
+
+    public getUsers = async (eventId: number): Promise<User[]> => {
+        const database: Database = new Database();
+        database.connect();
+        const pool: Pool = database.getConnection();
+        const query = `
+            SELECT participation_SE.id_participant, login, email, points, nombre_victoire AS wins, nombre_defaite AS looses
+            FROM participation_SE
+            JOIN participant ON participation_SE.id_participant=participant.id_participant
+            JOIN joueur ON joueur.id_joueur=participant.id_participant
+            WHERE id_evenement=$1
+        `;
+        const result: QueryResult = await pool.query(query, [ eventId ]);
+
+        const users: User[] = [];
+
+        for (const row of result.rows) {
+            users.push({ id: row.id_participant, login: row.login, email: row.email, password: null, wins: row.wins, looses: row.looses, points: row.points });
+        }
+
+        return new Promise(resolve => resolve(users));
+    }
+
+    public registerUser = async (eventId: number, userId: number) => {
+        const database: Database = new Database();
+        database.connect();
+        const pool: Pool = database.getConnection();
+        const query = "INSERT INTO participation_SE(id_participant, id_evenement) VALUES ($1, $2)";
+        
+        await pool.query(query, [userId, eventId ]);
     }
 
 }

@@ -49,7 +49,10 @@ export default class UserController {
                     id: user.id_participant,
                     login: user.login, 
                     email: user.email,
-                    password: null
+                    wins: 0,
+                    looses: 0,
+                    password: null,
+                    points: 0
                 });
             });
         } catch (err) {
@@ -104,6 +107,49 @@ export default class UserController {
         } catch (err) {
             console.log(err);
             return new Promise(resolve => { resolve([]); });
+        }
+    }
+
+    public findUserById = async (id: number): Promise<User> => {
+        try {
+            const database: Database = new Database();
+            database.connect();
+            const pool: Pool = database.getConnection();
+            const query = "SELECT * FROM participant WHERE id_participant=$1";
+            const result: QueryResult = await pool.query(query, [ id ]);
+
+            const user = {
+                id: result.rows[0].id_participant,
+                login: result.rows[0].login,
+                email: result.rows[0].email,
+            } as User;
+
+            return new Promise(resolve => resolve(user));
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    }
+
+    public getEventsOfUser = async (userId: number): Promise<number[]> => {
+        try {
+            const db: Database = new Database();
+            db.connect();
+            const pool: Pool = db.getConnection();
+            const query = "SELECT id_evenement FROM participation_SE WHERE id_participant=$1";
+            const result: QueryResult = await pool.query(query, [ userId ]);
+
+            const eventsIds: number[] = [];
+
+            for (const row of result.rows) {
+                eventsIds.push(row.id_evenement);
+            }
+
+            return new Promise(resolve => resolve(eventsIds));
+
+        } catch (error) {
+            console.log(error);
+            return new Promise(resolve => resolve([]));
         }
     }
 };
