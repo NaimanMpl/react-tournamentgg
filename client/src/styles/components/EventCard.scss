@@ -1,0 +1,35 @@
+.event {
+    box-shadow: rgb(149, 157, 165, 0.2) 0px 8px 24px;
+
+    .event-background {
+        border-radius: .5rem .5rem 0 0;
+    }
+
+    .event-data {
+        border-radius: .5rem;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        padding: .8rem 1rem;
+
+        .event-game {
+            color: var(--dark-gray);
+        }
+
+        .event-date {
+            margin-top: .5rem;
+        }
+        
+        .event-date, .event-participants {
+            display: flex;
+            gap: .5rem;
+
+            img {
+                max-width: 15px;
+            }
+
+            span {
+                color: var(--dark-gray);
+                font-size: .8rem;
+            }
+        }
+    }
+}

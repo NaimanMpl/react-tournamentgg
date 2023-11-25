@@ -85,6 +85,20 @@ export const fetchEvent = async (id) => {
   return response.json();
 }
 
+export const fetchEventMatchs = async (id) => {
+  const response = await fetch(
+    `/api/event/${id}/matchs`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+  if (response.status !== 200) return new Promise(resolve => resolve([]));
+  return response.json();
+}
+
 export const joinTournament = async (id) => {
   const response = await fetch(
     `/api/user/join/${id}`,

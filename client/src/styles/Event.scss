@@ -37,6 +37,25 @@
     }
 }
 
+.event-matchs {
+
+    padding: 2.5rem 6rem;
+
+
+    h2 {
+        font-size: 3rem;
+        padding-bottom: 1rem;
+    }
+
+    .event-matchs--container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        column-gap: 1.5rem;
+        row-gap: 1.5rem;
+    }
+
+}
+
 .event-users {
     padding: 2.5rem 6rem;
 

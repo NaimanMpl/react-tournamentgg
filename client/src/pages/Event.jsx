@@ -6,9 +6,10 @@ import smashBg from '../assets/smashbg.png';
 import Button from '../components/Button';
 import Curtain from '../components/Curtain';
 import Header from '../components/Header';
+import MatchCard from '../components/MatchCard';
 import UserCard from '../components/UserCard';
 import { useAuth } from '../contexts/AuthContext';
-import { fetchEvent, joinTournament } from '../services/api';
+import { fetchEvent, fetchEventMatchs, joinTournament } from '../services/api';
 import { getGameBackground } from '../services/utils';
 import '../styles/Event.scss';
 
@@ -18,8 +19,9 @@ const Event = () => {
     id: '',
     title: '',
     game: '',
-    users: []
+    users: [],
   });
+  const [ matchData, setMatchData ] = useState([]);
   const [ loading, setLoading ] = useState(true);
   const [ buttonLabel, setButtonLabel ] = useState('Rejoindre');
   const [ loggedIn, setLoggedIn ] = useState('');
@@ -53,6 +55,12 @@ const Event = () => {
       setLoading(false);
     }
 
+    const fetchMatchData = async () => {
+      const matchs = await fetchEventMatchs(id);
+      setMatchData(matchs.matchs);
+    }
+
+    fetchMatchData();
     fetchEventData();
   }, []);
 
@@ -118,6 +126,24 @@ const Event = () => {
                       login={user.login}
                     />
                   );
+                })}
+              </div>
+            </section>
+            <section className="event-matchs">
+              <h2>Matchs</h2>
+              <div className="event-matchs--container">
+                {matchData.map((match) => {
+                  return (
+                    <MatchCard
+                      key={match.id}
+                      id={match.id}
+                      title={`${match.player1} vs ${match.player2}`}
+                      format={match.format}
+                      game={match.gameTitle}
+                      date={new Date(match.date)}
+                      winner={match.winner}
+                    />
+                  )
                 })}
               </div>
             </section>

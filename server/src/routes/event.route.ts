@@ -48,4 +48,18 @@ router.get('/:id/register/:userId', EventMiddleware.getEvent, async (req: Reques
     }
 });
 
+router.get('/:id/matchs', EventMiddleware.getEvent, async (req: Request, res: Response) => {
+    const event: Event = req.event;
+
+    const controller = new EventController();
+    try {
+        const matchs = await controller.getMatchs(event.getId());
+
+        res.status(200).json({ matchs: matchs });
+    } catch (error) {
+        res.status(500).json({ error: "Le serveur a rencontré un problème. "});
+    }
+
+});
+
 export default router;

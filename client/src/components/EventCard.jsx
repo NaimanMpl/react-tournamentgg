@@ -1,9 +1,8 @@
-import { gsap } from 'gsap/gsap-core';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
 import calendarIcon from '../assets/calendar.svg';
 import personIcon from '../assets/person.svg';
 import { getGameBackground } from '../services/utils';
+import '../styles/components/EventCard.scss';
 
 const EventCard = (props) => {
   const { id, title, game, startDate, endDate, participants } = props;

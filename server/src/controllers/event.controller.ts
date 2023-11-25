@@ -1,4 +1,5 @@
 import { Pool, QueryResult } from "pg";
+import { Match } from "../interfaces/match.interface";
 import User from "../interfaces/user.interface";
 import { Database } from "../models/database.model";
 import { Event } from "../models/event.model";
@@ -118,6 +119,41 @@ export class EventController {
         const query = "INSERT INTO participation_SE(id_participant, id_evenement) VALUES ($1, $2)";
         
         await pool.query(query, [userId, eventId ]);
+    }
+
+    public getMatchs = async (eventId: number): Promise<Match[]> => {
+        const database: Database = new Database();
+        database.connect();
+        const pool: Pool = database.getConnection();
+        const query = `
+            SELECT match.id_match, match.id_jeu, jeu.nom_jeu, format, date, j1.login AS login1, j2.login AS login2, p1.result AS result1, p2.result AS result2 FROM match
+            JOIN participe_jm AS p1 ON match.id_match=p1.id_match
+            JOIN participe_jm AS p2 ON match.id_match=p2.id_match
+            JOIN participant AS j1 ON j1.id_participant=p1.id_joueur
+            JOIN participant AS j2 ON j2.id_participant=p2.id_joueur
+            JOIN jeu ON match.id_jeu = jeu.id_jeu
+            WHERE id_evenement=$1 AND j1.login != j2.login;
+        `;
+
+        const result: QueryResult = await pool.query(query, [ eventId ]);
+
+        const matchs: Match[] = [];
+
+        for (let i = 0; i < result.rowCount; i += 2) {
+            const row = result.rows[i]
+            matchs.push({
+                id: row.id_match,
+                gameId: row.id_jeu,
+                gameTitle: row.nom_jeu,
+                format: row.format,
+                date: new Date(row.date),
+                player1: row.login1,
+                player2: row.login2,
+                winner: row.result1 === true ? row.login1 : row.login2
+            });
+        }
+
+        return new Promise(resolve => resolve(matchs));
     }
 
 }
