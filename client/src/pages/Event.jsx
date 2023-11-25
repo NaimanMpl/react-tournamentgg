@@ -10,7 +10,7 @@ import MatchCard from '../components/MatchCard';
 import UserCard from '../components/UserCard';
 import { useAuth } from '../contexts/AuthContext';
 import { fetchEvent, fetchEventMatchs, joinTournament } from '../services/api';
-import { getGameBackground } from '../services/utils';
+import { getBase64Image } from '../services/utils';
 import '../styles/Event.scss';
 
 const Event = () => {
@@ -19,6 +19,7 @@ const Event = () => {
     id: '',
     title: '',
     game: '',
+    image: '',
     users: [],
   });
   const [ matchData, setMatchData ] = useState([]);
@@ -35,7 +36,7 @@ const Event = () => {
     }
     
     setLoggedIn(`Bienvenue ${user.login}`);
-    if (user.events.includes(parseInt(id))) setButtonLabel('Inscrit');
+    if (user.events.includes(id)) setButtonLabel('Inscrit');
   }, [user]);
 
   useEffect(() => {
@@ -50,8 +51,11 @@ const Event = () => {
         title: event.title,
         description: event.description,
         game: event.game.title,
+        image: event.game.image,
         users: event.users
       });
+
+      console.log(event);
       setLoading(false);
     }
 
@@ -69,7 +73,7 @@ const Event = () => {
       navigate('/login');
       return;
     }
-    if (user.events.includes(parseInt(id))) {
+    if (user.events.includes(id)) {
       return;
     }
     setButtonLabel('Chargement...');
@@ -84,9 +88,10 @@ const Event = () => {
       setButtonLabel('Inscrit');
     }
   }
+
   
   const backgroundStyle = {
-    background: `linear-gradient(90deg, rgba(0, 0, 0, 0.80) -16.72%, rgba(0, 0, 0, 0.00) 94.17%), url(${getGameBackground(eventData.game)}), lightgray 50%`,
+    background: `linear-gradient(90deg, rgba(0, 0, 0, 0.80) -16.72%, rgba(0, 0, 0, 0.00) 94.17%), url(${getBase64Image(eventData.image)}), lightgray 50%`,
     backgroundPosition: 'top',
     backgroundSize: '100%',
     backgroundRepeat: 'no-repeat'
@@ -119,7 +124,7 @@ const Event = () => {
                   return (
                     <UserCard
                       key={user.id}
-                      profileIcon={profileIcon}
+                      profileIcon={user.profilePicture}
                       wins={user.wins}
                       looses={user.looses}
                       points={user.points}

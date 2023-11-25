@@ -1,11 +1,12 @@
 export default interface User {
-    id: number,
+    id: string,
     login: string,
     password: string,
     email: string,
     wins: number,
     looses: number,
-    points: number
+    points: number,
+    profilePicture?: string
 }
 
 export interface RegisterationRequest {

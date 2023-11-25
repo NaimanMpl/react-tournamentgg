@@ -1,5 +1,5 @@
 export interface Match {
-    id: number,
+    id: string,
     gameId: number,
     gameTitle: string,
     format: string,

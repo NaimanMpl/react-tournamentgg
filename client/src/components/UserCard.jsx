@@ -1,4 +1,6 @@
 import PropTypes from 'prop-types';
+import defaultProfilePicture from '../assets/default-pp.svg';
+import { getBase64Image } from '../services/utils';
 import '../styles/components/UserCard.scss';
 
 const UserCard = ({ points, login, wins, looses, profileIcon }) => {
@@ -9,7 +11,7 @@ const UserCard = ({ points, login, wins, looses, profileIcon }) => {
         <span>Points</span>
       </div>
       <div className="user-card--profile">
-        <img src={profileIcon} alt="Profile picture" />
+        <img src={profileIcon === null ? defaultProfilePicture : getBase64Image(profileIcon)} alt="Profile picture" />
         <span>{login}</span>
       </div>
       <div className="user-card--infos">

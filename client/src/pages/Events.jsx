@@ -51,6 +51,7 @@ const Events = () => {
                     game={event.game.title}
                     startDate={new Date(event.start)}
                     endDate={new Date(event.end)}
+                    image={event.game.image}
                     participants={parseInt(event.participant)}
                   />
                 );

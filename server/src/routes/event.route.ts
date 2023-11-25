@@ -30,7 +30,7 @@ router.get('/:id/register/:userId', EventMiddleware.getEvent, async (req: Reques
 
     try {
         const controller: EventController = new EventController();
-        controller.registerUser(event.getId(), parseInt(req.params.userId));
+        controller.registerUser(event.getId(), req.params.userId);
 
         res.status(200).json({ message: "Le joueur a été inscrit avec succès !" });
     } catch (error) {

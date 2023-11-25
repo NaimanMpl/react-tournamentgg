@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 import calendarIcon from '../assets/calendar.svg';
 import personIcon from '../assets/person.svg';
-import { getGameBackground } from '../services/utils';
+import { getBase64Image } from '../services/utils';
 import '../styles/components/EventCard.scss';
 
 const EventCard = (props) => {
-  const { id, title, game, startDate, endDate, participants } = props;
+  const { id, title, game, startDate, endDate, image, participants } = props;
 
   const startMonth = startDate.toLocaleString('default', { month: 'short' });
   const endMonth = endDate.toLocaleString('default', { month: 'short' });
 
   const eventBgStyle = {
-    background: `url(${getGameBackground(game)})`,
+    background: `url(${getBase64Image(image)})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     height: '10rem'
@@ -39,11 +39,12 @@ const EventCard = (props) => {
 }
 
 EventCard.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   game: PropTypes.string.isRequired,
   startDate: PropTypes.instanceOf(Date).isRequired,
   endDate: PropTypes.instanceOf(Date).isRequired,
+  image: PropTypes.string.isRequired,
   participants: PropTypes.number.isRequired
 }
 

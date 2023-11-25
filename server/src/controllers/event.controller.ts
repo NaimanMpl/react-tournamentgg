@@ -12,7 +12,7 @@ export class EventController {
         database.connect();
         const pool: Pool = database.getConnection();
         const query: string = `
-            SELECT evenement.id_evenement, date_debut, date_fin, evenement.id_jeu, nom_jeu, categorie, description_jeu, date_parution, plateforme, nom_evenement, description, COUNT(evenement.id_evenement) FROM evenement
+            SELECT evenement.id_evenement, date_debut, date_fin, evenement.id_jeu, nom_jeu, cover_img, categorie, description_jeu, date_parution, plateforme, nom_evenement, description, COUNT(evenement.id_evenement) FROM evenement
             JOIN participation_SE ON evenement.id_evenement=$1
             JOIN jeu ON evenement.id_jeu=jeu.id_jeu
             WHERE evenement.id_evenement=$1
@@ -24,7 +24,7 @@ export class EventController {
             return null;
         }
 
-        const users = await this.getUsers(parseInt(id));
+        const users = await this.getUsers(id);
         
         const row = result.rows[0];
         const event = new Event(
@@ -40,7 +40,8 @@ export class EventController {
                 row.categorie,
                 row.description_jeu,
                 new Date(row.date_parution),
-                row.plateforme
+                row.plateforme,
+                row.cover_img.toString('base64')
             ),
             users
         );
@@ -53,7 +54,7 @@ export class EventController {
         database.connect();
         const pool: Pool = database.getConnection();
         const query: string = `
-            SELECT evenement.id_evenement, date_debut, date_fin, evenement.id_jeu, nom_jeu, categorie, description_jeu, date_parution, plateforme, nom_evenement, description, COUNT(evenement.id_evenement)
+            SELECT evenement.id_evenement, date_debut, date_fin, evenement.id_jeu, nom_jeu, cover_img, categorie, description_jeu, date_parution, plateforme, nom_evenement, description, COUNT(evenement.id_evenement)
             FROM evenement
             JOIN participation_SE ON evenement.id_evenement=participation_SE.id_evenement
             JOIN jeu ON evenement.id_jeu=jeu.id_jeu
@@ -79,7 +80,8 @@ export class EventController {
                     row.categorie,
                     row.description_jeu,
                     new Date(row.date_parution),
-                    row.plateforme
+                    row.plateforme,
+                    row.cover_img.toString('base64')
                 ),
                 users
             );
@@ -90,12 +92,12 @@ export class EventController {
         return new Promise(resolve => resolve(events));
     }
 
-    public getUsers = async (eventId: number): Promise<User[]> => {
+    public getUsers = async (eventId: string): Promise<User[]> => {
         const database: Database = new Database();
         database.connect();
         const pool: Pool = database.getConnection();
         const query = `
-            SELECT participation_SE.id_participant, login, email, points, nombre_victoire AS wins, nombre_defaite AS looses
+            SELECT participation_SE.id_participant, profile_picture, login, email, points, nombre_victoire AS wins, nombre_defaite AS looses
             FROM participation_SE
             JOIN participant ON participation_SE.id_participant=participant.id_participant
             JOIN joueur ON joueur.id_joueur=participant.id_participant
@@ -106,13 +108,22 @@ export class EventController {
         const users: User[] = [];
 
         for (const row of result.rows) {
-            users.push({ id: row.id_participant, login: row.login, email: row.email, password: null, wins: row.wins, looses: row.looses, points: row.points });
+            users.push({ 
+                id: row.id_participant, 
+                login: row.login, 
+                email: row.email, 
+                password: null, 
+                wins: row.wins, 
+                looses: row.looses, 
+                points: row.points,
+                profilePicture: row.profile_picture === null ? null : row.profile_picture.toString('base64')
+            });
         }
 
         return new Promise(resolve => resolve(users));
     }
 
-    public registerUser = async (eventId: number, userId: number) => {
+    public registerUser = async (eventId: string, userId: string) => {
         const database: Database = new Database();
         database.connect();
         const pool: Pool = database.getConnection();
@@ -121,7 +132,7 @@ export class EventController {
         await pool.query(query, [userId, eventId ]);
     }
 
-    public getMatchs = async (eventId: number): Promise<Match[]> => {
+    public getMatchs = async (eventId: string): Promise<Match[]> => {
         const database: Database = new Database();
         database.connect();
         const pool: Pool = database.getConnection();

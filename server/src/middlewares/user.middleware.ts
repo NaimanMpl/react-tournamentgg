@@ -6,7 +6,7 @@ class UserMiddleware {
 
     public authUser = async (req: Request, res: Response, next: NextFunction) => {
         const userController = new UserController();
-        const user: User = await userController.findUserById(parseInt(req.params.id));
+        const user: User = await userController.findUserById(req.params.id);
 
         if (user === null) {
             res.status(404).json({ error: `Aucun utilisateur avec l'identifiant ${req.params.id} n'existe.`});

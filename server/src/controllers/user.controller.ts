@@ -16,9 +16,9 @@ export default class UserController {
         const hashedPassword = await bcrypt.hash(user.password, salt);
 
         try {
-            await pool.query(query, [ user.login, hashedPassword, user.email]);
+            await pool.query(query, [ user.login, hashedPassword, user.email.toLowerCase()]);
         } catch (error) {
-
+            console.log(error)
             if (error.code !== "23505") throw error;
 
             if (error.constraint === "participant_login_key") {
@@ -67,7 +67,7 @@ export default class UserController {
         const pool: Pool = database.getConnection();
         const query = `SELECT id_participant, email, login FROM participant WHERE email=$1`;
         try {
-            const result: QueryResult = await pool.query(query, [ email ]);
+            const result: QueryResult = await pool.query(query, [ email.toLowerCase() ]);
 
             const users = [];
 
@@ -110,7 +110,7 @@ export default class UserController {
         }
     }
 
-    public findUserById = async (id: number): Promise<User> => {
+    public findUserById = async (id: string): Promise<User> => {
         try {
             const database: Database = new Database();
             database.connect();
@@ -131,7 +131,7 @@ export default class UserController {
         }
     }
 
-    public getEventsOfUser = async (userId: number): Promise<number[]> => {
+    public getEventsOfUser = async (userId: string): Promise<string[]> => {
         try {
             const db: Database = new Database();
             db.connect();
@@ -139,7 +139,7 @@ export default class UserController {
             const query = "SELECT id_evenement FROM participation_SE WHERE id_participant=$1";
             const result: QueryResult = await pool.query(query, [ userId ]);
 
-            const eventsIds: number[] = [];
+            const eventsIds: string[] = [];
 
             for (const row of result.rows) {
                 eventsIds.push(row.id_evenement);

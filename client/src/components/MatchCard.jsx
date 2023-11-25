@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import calendarIcon from '../assets/calendar.svg';
 import personIcon from '../assets/person.svg';
 import winnerCupIcon from '../assets/winner-cup.svg';
-import { getGameBackground } from '../services/utils';
+import { getBase64Image } from '../services/utils';
 import '../styles/components/MatchCard.scss';
 
 const MatchCard = (props) => {
@@ -11,7 +11,7 @@ const MatchCard = (props) => {
   const month = date.toLocaleString('default', { month: 'short' });
 
   const matchBgStyle = {
-    background: `url(${getGameBackground(game)})`,
+    background: `url(${getBase64Image(game)})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     height: '10rem'
@@ -41,12 +41,11 @@ const MatchCard = (props) => {
 }
 
 MatchCard.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   format: PropTypes.string.isRequired,
   game: PropTypes.string.isRequired,
   date: PropTypes.instanceOf(Date).isRequired,
-  participants: PropTypes.number.isRequired
 }
 
 export default MatchCard;

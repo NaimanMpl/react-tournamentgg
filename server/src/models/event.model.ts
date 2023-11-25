@@ -3,7 +3,7 @@ import { Game } from "./game.model";
 
 export class Event {
 
-    private id: number
+    private id: string
     private title: string;
     private description: string;
     private start: Date;
@@ -12,7 +12,7 @@ export class Event {
     private game: Game;
     private users: Array<User>;
 
-    constructor(id: number, title: string, description: string, start: Date, end: Date, participant: number, game: Game, users: Array<User>) {
+    constructor(id: string, title: string, description: string, start: Date, end: Date, participant: number, game: Game, users: Array<User>) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -36,7 +36,7 @@ export class Event {
         }
     }
 
-    public getId = (): number => {
+    public getId = (): string => {
         return this.id;
     }
 

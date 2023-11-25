@@ -128,3 +128,5 @@ dist
 .pnp.*
 
 .DS_STORE
+test.sql
+server/src/uploadimages.ts

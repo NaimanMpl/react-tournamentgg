@@ -1,5 +1,5 @@
 export interface Player {
-    id: number,
+    id: string,
     wins: number,
     looses: number,
     points: number

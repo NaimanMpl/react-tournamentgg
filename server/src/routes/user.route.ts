@@ -15,7 +15,7 @@ router.post('/register', AuthMiddleware.handleRegister, async (req: Request, res
     const controller: UserController = new UserController();
     
     try {
-        await controller.createUser({ id: 0, ...user, wins: 0, looses: 0, points: 0 });
+        await controller.createUser({ id: undefined, ...user, wins: 0, looses: 0, points: 0 });
     } catch (error) {
         if (error instanceof UserAlreadyExistsError) {
             return res.status(400).json({ error: error.message });
@@ -69,7 +69,7 @@ router.get('/:id/events', UserMiddleware.authUser,  async (req: Request, res: Re
     const user: User = req.user;
 
     const userController = new UserController();
-    const events = await userController.getEventsOfUser(1);
+    const events = await userController.getEventsOfUser(user.id);
 
     res.status(200).json(events);
 
