@@ -18,14 +18,15 @@ class EventMiddleware {
             const event = await controller.getEvent(req.params.id);
 
             if (event === null) {
-                return res.status(400).json({ error: `L'évènement ${req.params.id} n'existe pas !` })
+                res.status(400).json({ error: `L'évènement ${req.params.id} n'existe pas !` });
+                return;
             }
 
             req.event = event;
 
             next();
         } catch (err) {
-            return res.status(500).json({ error: "Le serveur a rencontré un problème." });
+            res.status(500).json({ error: "Le serveur a rencontré un problème." });
         }
     }
 }

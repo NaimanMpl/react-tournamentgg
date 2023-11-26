@@ -160,3 +160,59 @@ const refreshAccessToken = async () => {
   }
   return response.json();
 }
+
+export const fetchUsers = async () => {
+  const response = await fetch(
+    '/api/user/all',
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type' : 'application/json'
+      }
+    }
+  );
+  return response.json();
+}
+
+export const fetchReports = async () => {
+  const resposne = await fetch(
+    '/api/report/all',
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+  return resposne.json();
+}
+
+export const deleteReport = async (id) => {
+  const response = await fetch(
+    `/api/report/${id}`,
+    {
+      method: 'DELETE'
+    }
+  );
+
+  return response.json();
+}
+
+export const updateReport = async (id, status) => {
+  const statusMap = {
+    'En cours' : 1,
+    'Traité' : 2,
+    'Refusé' : 3
+  }
+  const response = await fetch(
+    `/api/report/status`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({id: id, status: statusMap[status]})
+    }
+  );
+  return response.json();
+}

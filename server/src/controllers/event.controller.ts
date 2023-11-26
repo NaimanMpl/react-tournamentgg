@@ -12,7 +12,7 @@ export class EventController {
         database.connect();
         const pool: Pool = database.getConnection();
         const query: string = `
-            SELECT evenement.id_evenement, date_debut, date_fin, evenement.id_jeu, nom_jeu, cover_img, categorie, description_jeu, date_parution, plateforme, nom_evenement, description, COUNT(evenement.id_evenement) FROM evenement
+            SELECT evenement.id_evenement, date_debut, date_fin, evenement.id_jeu, nom_jeu, categorie, description_jeu, date_parution, plateforme, nom_evenement, description, COUNT(evenement.id_evenement) FROM evenement
             JOIN participation_SE ON evenement.id_evenement=$1
             JOIN jeu ON evenement.id_jeu=jeu.id_jeu
             WHERE evenement.id_evenement=$1
@@ -41,7 +41,6 @@ export class EventController {
                 row.description_jeu,
                 new Date(row.date_parution),
                 row.plateforme,
-                row.cover_img.toString('base64')
             ),
             users
         );
@@ -54,7 +53,7 @@ export class EventController {
         database.connect();
         const pool: Pool = database.getConnection();
         const query: string = `
-            SELECT evenement.id_evenement, date_debut, date_fin, evenement.id_jeu, nom_jeu, cover_img, categorie, description_jeu, date_parution, plateforme, nom_evenement, description, COUNT(evenement.id_evenement)
+            SELECT evenement.id_evenement, date_debut, date_fin, evenement.id_jeu, nom_jeu, categorie, description_jeu, date_parution, plateforme, nom_evenement, description, COUNT(evenement.id_evenement)
             FROM evenement
             JOIN participation_SE ON evenement.id_evenement=participation_SE.id_evenement
             JOIN jeu ON evenement.id_jeu=jeu.id_jeu
@@ -81,7 +80,6 @@ export class EventController {
                     row.description_jeu,
                     new Date(row.date_parution),
                     row.plateforme,
-                    row.cover_img.toString('base64')
                 ),
                 users
             );
@@ -116,7 +114,8 @@ export class EventController {
                 wins: row.wins, 
                 looses: row.looses, 
                 points: row.points,
-                profilePicture: row.profile_picture === null ? null : row.profile_picture.toString('base64')
+                profilePicture: row.profile_picture === null ? null : row.profile_picture.toString('base64'),
+                admin: row.admin
             });
         }
 

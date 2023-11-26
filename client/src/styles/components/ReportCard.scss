@@ -1,0 +1,95 @@
+.report-card {
+
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr 1fr 1fr auto;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--light-gray-2);
+
+    .report-card--pp {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--light-purple);
+
+        span {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #5B56B6;
+        }
+    }
+
+    p {
+        color: var(--light-gray-3);
+    }
+
+    .report-card--roles-selector-container {
+        margin-left: auto;
+        margin-right: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .report-delete--cta {
+            width: 1.2rem;
+            margin-right: 1px;
+            cursor: pointer;
+        }
+        
+        .report-card--roles-selector {
+            background: var(--light-purple);
+            padding: .5rem 1rem;
+            border-radius: .3rem;
+            font-size: 1.1rem;
+            border: none;
+            font-weight: bold;
+            position: relative;
+            cursor: pointer;
+
+            .report-card--options {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: calc(100% - 2rem);
+                padding: .5rem 1rem;
+                display: flex;
+                flex-direction: column;
+                z-index: 999;
+                background: white;
+                
+                span {
+
+                    font-size: 1rem;
+
+                    &:hover {
+                        color: #5B56B6;
+                    }
+                }
+
+                .selected {
+                    color: #5B56B6;
+                }
+            }
+        }
+        
+        div {
+            display: flex;
+            gap: .5rem;
+            
+            img {
+                width: 1.2rem;
+            }
+            
+        }
+
+        p {
+            color: var(--purple);
+        }
+
+    }
+
+
+}

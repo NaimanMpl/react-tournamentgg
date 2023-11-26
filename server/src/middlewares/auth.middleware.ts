@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import expressLimit, { rateLimit } from 'express-rate-limit';
 import jwt from 'jsonwebtoken';
 import UserController from "../controllers/user.controller";
+import { Report } from "../interfaces/report.interface";
 import User, { RegisterationRequest, UserCredentials } from "../interfaces/user.interface";
 
 declare module 'express-serve-static-core' {
@@ -9,6 +10,7 @@ declare module 'express-serve-static-core' {
       accessToken: string,
       refreshToken: string,
       user: User
+      report: Report
     }
 }
 
@@ -32,14 +34,16 @@ class AuthMiddleware {
         }
         
         if (accessToken === undefined) {
-            return res.status(401).json({ error: "Vous devez être authentifié pour accéder à cette ressource." });
+            res.status(401).json({ error: "Vous devez être authentifié pour accéder à cette ressource." });
+            return;
         }
 
         try {
             const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
             req.user = decoded as User;
         } catch (err) {
-            return res.status(401).json({"error": "Token invalide !"});
+            res.status(401).json({"error": "Token invalide !"});
+            return;
         }
 
         next();
@@ -49,35 +53,43 @@ class AuthMiddleware {
         const userData = req.body as RegisterationRequest;
 
         if (!userData.login) {
-            return res.status(400).json({ error: "Veuillez renseigner un login !" });
+            res.status(400).json({ error: "Veuillez renseigner un login !" });
+            return;
         }
 
         if (!userData.email) {
-            return res.status(400).json({ error: "Veuillez renseigner une adresse mail !" });
+            res.status(400).json({ error: "Veuillez renseigner une adresse mail !" });
+            return;
         }
 
         if (!userData.password) {
-            return res.status(400).json({ error: "Veuillez renseigner un mot de passe !" });
+            res.status(400).json({ error: "Veuillez renseigner un mot de passe !" });
+            return;
         }
 
         if (!userData.confirmPassword) {
-            return res.status(400).json({ error: "Veuillez renseigner un mot de passe de confirmation !" });
+            res.status(400).json({ error: "Veuillez renseigner un mot de passe de confirmation !" });
+            return;
         }
 
         if (!this.validateEmail(userData.email)) {
-            return res.status(400).json({ error: "Veuillez renseigner un email valide !" });
+            res.status(400).json({ error: "Veuillez renseigner un email valide !" });
+            return;
         }
 
         if (!this.validatePassword(userData.password)) {
-            return res.status(400).json({ error: "Le mot de passe doit contenir au moins 8 caractères, une majuscule et un caractère spécial !"});
+            res.status(400).json({ error: "Le mot de passe doit contenir au moins 8 caractères, une majuscule et un caractère spécial !"});
+            return;
         }
 
         if (userData.password !== userData.confirmPassword) {
-            return res.status(400).json({ error: "Les 2 mots de passes doivent être identiques !"});
+            res.status(400).json({ error: "Les 2 mots de passes doivent être identiques !"});
+            return;
         }
         
         if (userData.login.length > 50) {
-            return res.status(400).json({ error: "Le login ne peut dépasser 50 caractères !" });
+            res.status(400).json({ error: "Le login ne peut dépasser 50 caractères !" });
+            return;
         }
 
         next();
@@ -88,14 +100,16 @@ class AuthMiddleware {
         const user: UserCredentials = req.body;
         
         if (!user.login || !user.password || user.login.length === 0 || user.password.length === 0) {
-            return res.status(401).json({ "error" : "Identifiant ou mot de passe incorrect." });
+            res.status(401).json({ "error" : "Identifiant ou mot de passe incorrect." });
+            return;
         }
 
         const controller: UserController = new UserController();
         const payload = await controller.findUniqueUserByLoginPassword(user.login, user.password);
         
         if (payload === null) {
-            return res.status(401).json({ error: "Identifiant ou mot de passe incorrect." });
+            res.status(401).json({ error: "Identifiant ou mot de passe incorrect." });
+            return;
         }
 
         const accessToken = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: '1m' });

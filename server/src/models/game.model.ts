@@ -6,16 +6,14 @@ export class Game {
     private description: string;
     private date: Date;
     private platform: string;
-    private coverImg: string;
 
-    constructor(id: number, title: string, category: string, description: string, date: Date, platform: string, coverImg: string) {
+    constructor(id: number, title: string, category: string, description: string, date: Date, platform: string) {
         this.id = id;
         this.title = title;
         this.category = category;
         this.description = description;
         this.date = date;
         this.platform = platform;
-        this.coverImg = coverImg;
     }
 
     public toObject = () => {
@@ -26,7 +24,6 @@ export class Game {
             description: this.description,
             date: this.date,
             platform: this.platform,
-            image: this.coverImg
         }
     }
 

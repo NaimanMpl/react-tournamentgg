@@ -3,7 +3,7 @@ import '../styles/Header.scss';
 
 const Header = ({ color }) => {
   return (
-    <header>
+    <header className='base-header'>
       <a href='/' style={{color: color}} className="header-title">Tournament.GG</a>
       <nav>
         <ul>

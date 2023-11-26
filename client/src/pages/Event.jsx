@@ -1,8 +1,5 @@
-import { gsap } from 'gsap/gsap-core';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import profileIcon from '../assets/profilepicture.png';
-import smashBg from '../assets/smashbg.png';
 import Button from '../components/Button';
 import Curtain from '../components/Curtain';
 import Header from '../components/Header';
@@ -10,7 +7,7 @@ import MatchCard from '../components/MatchCard';
 import UserCard from '../components/UserCard';
 import { useAuth } from '../contexts/AuthContext';
 import { fetchEvent, fetchEventMatchs, joinTournament } from '../services/api';
-import { getBase64Image } from '../services/utils';
+import { getGameBackground } from '../services/utils';
 import '../styles/Event.scss';
 
 const Event = () => {
@@ -91,7 +88,7 @@ const Event = () => {
 
   
   const backgroundStyle = {
-    background: `linear-gradient(90deg, rgba(0, 0, 0, 0.80) -16.72%, rgba(0, 0, 0, 0.00) 94.17%), url(${getBase64Image(eventData.image)}), lightgray 50%`,
+    background: `linear-gradient(90deg, rgba(0, 0, 0, 0.80) -16.72%, rgba(0, 0, 0, 0.00) 94.17%), url(${getGameBackground(eventData.game)}), lightgray 50%`,
     backgroundPosition: 'top',
     backgroundSize: '100%',
     backgroundRepeat: 'no-repeat'

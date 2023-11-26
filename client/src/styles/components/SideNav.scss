@@ -1,0 +1,30 @@
+.side-header {
+
+    width: 20rem;
+    border-right: 1px solid var(--light-gray-2);
+    height: 100%;
+    padding: 2rem;
+
+    a {
+        color: var(--purple);
+    }
+
+    .side-header--title{
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    nav {
+        margin-top: 2rem;
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            li a {
+                font-weight: bold;
+            }
+        }
+    }
+}
