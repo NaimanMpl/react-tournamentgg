@@ -27,7 +27,7 @@ router.post('/register', AuthMiddleware.handleRegister, async (req: Request, res
     return res.status(200).json({ login: user.login, email: user.email, success: true });
 });
 
-router.post('/update/profilepicture', UserMiddleware.getUser, UserMiddleware.verifyImage, async (req: Request, res: Response) => {
+router.post('/update/profilepicture', UserMiddleware.getUserByLogin, UserMiddleware.verifyImage, async (req: Request, res: Response) => {
     const user = req.user;
     try {
         const imageBuffer = Buffer.from(req.body.image, 'base64');

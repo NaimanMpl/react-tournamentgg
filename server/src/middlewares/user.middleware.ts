@@ -31,6 +31,20 @@ class UserMiddleware {
         
     }
 
+    public getUserByLogin = async (req: Request, res: Response, next: NextFunction) => {
+        const userController = new UserController();
+        const user = await userController.findUserByLogin(req.method === 'GET' ? req.params.login : req.body.login) as Array<Object>;
+        console.log(user);
+        if (user.length === 0) {
+            res.status(400).json({ error: "Aucun utilisateur avec cet identifiant existe ! "});
+            return;
+        }
+
+        req.user = user[0] as User;
+        next();
+        
+    }
+
     public verifyImage = async (req: Request, res: Response, next: NextFunction) => {
         if (!req.body.image) {
             res.status(400).json({ error: "Veuillez renseigner une photo de profil ! "});
