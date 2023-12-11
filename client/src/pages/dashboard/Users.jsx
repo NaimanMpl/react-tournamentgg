@@ -29,6 +29,7 @@ const Users = () => {
     >
       <div className="users-container" style={{ width: '100%' }}>
         {!user.loading && <AccountCard
+          id={user.id}
           login={user.login + ' (Vous)'}
           email={user.email}
           profilePicture={user.profilePicture}
@@ -40,6 +41,7 @@ const Users = () => {
             return (
               <AccountCard
                 key={userData.id}
+                id={userData.id}
                 login={userData.login}
                 email={userData.email}
                 profilePicture={userData.profilePicture}

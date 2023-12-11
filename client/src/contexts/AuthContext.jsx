@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       setUser({ 
-        id: userData.login,
+        id: userData.id,
         email: userData.email,
         login: userData.login,
         events: userData.events,

@@ -239,4 +239,15 @@ export default class UserController {
         const query = "UPDATE participant SET profile_picture=$1 WHERE id_participant=$2";
         await pool.query(query, [ profilePicture, userId ]);
     }
+
+    public updateAccountStatus = async (id: string, status: number): Promise<string> => {
+        const database: Database = new Database();
+        database.connect();
+        const pool: Pool = database.getConnection();
+        const query = 'UPDATE participant SET admin=$1 WHERE id_participant=$2';
+        
+        await pool.query(query, [ status === 2 ? true : false, id ]);
+
+        return new Promise(resolve => resolve(status === 2 ? 'Administrateur' : 'Joueur'));
+    }
 };

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import calendarIcon from '../assets/calendar.svg';
 import personIcon from '../assets/person.svg';
 import winnerCupIcon from '../assets/winner-cup.svg';
-import { getBase64Image } from '../services/utils';
+import { getBase64Image, getGameBackground, getMatchBackground } from '../services/utils';
 import '../styles/components/MatchCard.scss';
 
 const MatchCard = (props) => {
@@ -11,7 +11,7 @@ const MatchCard = (props) => {
   const month = date.toLocaleString('default', { month: 'short' });
 
   const matchBgStyle = {
-    background: `url(${getBase64Image(game)})`,
+    background: `url(${getMatchBackground(game)})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     height: '10rem'

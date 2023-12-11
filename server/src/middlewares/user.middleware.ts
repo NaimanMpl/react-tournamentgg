@@ -53,6 +53,21 @@ class UserMiddleware {
         next();
     }
 
+    public verifyStatus = async (req: Request, res: Response, next: NextFunction) => {
+
+        try {
+            const status: number = parseInt(req.body.status);
+    
+            if (![1, 2].includes(status)) {
+                return res.status(404).json({ error: 'Le format du statut est inconnu ! '});
+            }
+
+            next();
+        } catch (error) {
+            res.status(400).json({ error: 'Le format du statut est inconnu ! '});
+        }
+    }
+
 }
 
 export default new UserMiddleware();

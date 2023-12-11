@@ -11,13 +11,6 @@
         text-transform: uppercase;
     }
 
-    nav {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-    }
-
     ul {
         display: flex;
         gap: 5rem;
@@ -31,5 +24,51 @@
 
     svg {
         max-width: 2rem;
+    }
+}
+
+.burger-nav {
+    position: absolute;
+    right: 0;
+    height: 100vh;
+    width: 350px;
+    padding: 1rem 2rem;
+    background-color: var(--black);
+    z-index: 999;
+
+    nav ul {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        li a {
+            font-size: 1.2rem;
+            color: var(--white);
+        }
+    }
+
+    .account-details {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding-bottom: 1.5rem;
+
+        a {
+            color: var(--light-gray);
+        }
+
+        .account-details--login {
+            color: var(--white);
+        }
+
+        .account-pp {
+            max-width: 50px;
+            border-radius: 50%;
+        }
+
+        .burger-nav--close {
+            margin-left: auto;
+            max-width: 20px;
+            cursor: pointer;
+        }
     }
 }

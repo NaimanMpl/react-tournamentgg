@@ -1,5 +1,5 @@
 import { Pool, QueryResult } from "pg";
-import { Report } from "../interfaces/report.interface";
+import { Report, ReportModel } from "../interfaces/report.interface";
 import { Database } from "../models/database.model";
 
 export class ReportController {
@@ -91,5 +91,15 @@ export class ReportController {
         await pool.query(query, [ statusText, id ]);
 
         return new Promise(resolve => resolve(statusText));
+    }
+
+    public createReport = async (model: ReportModel) => {
+        const database: Database = new Database();
+        database.connect();
+        const pool: Pool = database.getConnection();
+        const query = 'INSERT INTO plainte(raison, date_plainte, description_plainte, id_match, status, id_joueur) VALUES($1, $2, $3, $4, $5, $6)';
+
+        await pool.query(query, [ model.reason, model.date, model.description, model.match, 'En cours', model.player]);
+
     }
 }

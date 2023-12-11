@@ -46,7 +46,33 @@
             font-size: 1.1rem;
             border: none;
             font-weight: bold;
+            position: relative;
+            cursor: pointer;
 
+            .account-card--options {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: calc(100% - 2rem);
+                padding: .5rem 1rem;
+                display: flex;
+                flex-direction: column;
+                z-index: 999;
+                background: white;
+                
+                span {
+
+                    font-size: 1rem;
+
+                    &:hover {
+                        color: #5B56B6;
+                    }
+                }
+
+                .selected {
+                    color: #5B56B6;
+                }
+            }
         }
         
         div {

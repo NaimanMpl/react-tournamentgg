@@ -100,6 +100,7 @@ export class EventController {
             JOIN participant ON participation_SE.id_participant=participant.id_participant
             JOIN joueur ON joueur.id_joueur=participant.id_participant
             WHERE id_evenement=$1
+            ORDER BY points DESC
         `;
         const result: QueryResult = await pool.query(query, [ eventId ]);
 

@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { ReportController } from '../controllers/report.controller';
-import { Report } from '../interfaces/report.interface';
+import { Report, ReportModel } from '../interfaces/report.interface';
 import ReportMiddleware from '../middlewares/report.middleware';
 
 const router = express.Router();
@@ -37,6 +37,21 @@ router.post('/status', ReportMiddleware.getReport, ReportMiddleware.verifyStatus
         const updatedStatus = await controller.updateReportStatus(report.id, parseInt(status));
         res.status(200).json({ status: updatedStatus, success: true });
     } catch (error) {
+        res.status(500).json({ error: "Le serveur a rencontré un problème. "});
+    }
+});
+
+router.post('/create', ReportMiddleware.verifyModel, async (req: Request, res: Response) => {
+    const reportModel = req.body as ReportModel;
+    const controller = new ReportController();
+    try {
+        await controller.createReport(reportModel);
+        res.status(200).json({ report: reportModel, success: true });
+    } catch (error) {
+        if (error.code === "23503") {
+            res.status(400).json({ error: "Le match ou le joueur n'existe pas ! "});
+            return;
+        }
         res.status(500).json({ error: "Le serveur a rencontré un problème. "});
     }
 });

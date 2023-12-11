@@ -16,6 +16,24 @@ export const registerUser = async (formData) => {
   return new Promise(resolve => resolve({ response: response, data: data }));
 }
 
+export const createPost = async (formData) => {
+  const response = await fetch(
+    '/api/report/create',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json',
+        'Accept' : 'application/json'
+      },
+      body: JSON.stringify(formData)
+    }
+  );
+
+  const data = await response.json();
+
+  return new Promise(resolve => resolve({ response: response, data: data }));
+}
+
 export const loginUser = async (formData) => {
   const response = await fetch(
     '/api/auth/login',
@@ -206,6 +224,25 @@ export const updateReport = async (id, status) => {
   }
   const response = await fetch(
     `/api/report/status`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({id: id, status: statusMap[status]})
+    }
+  );
+  return response.json();
+}
+
+export const updateAccount = async (id, status) => {
+  const statusMap = {
+    'Joueur' : 1,
+    'Administrateur' : 2,
+  }
+  console.log(id, status, statusMap[status])
+  const response = await fetch(
+    `/api/user/status`,
     {
       method: 'POST',
       headers: {

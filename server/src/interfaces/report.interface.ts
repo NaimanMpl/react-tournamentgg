@@ -10,3 +10,11 @@ export interface Report {
     matchId: string,
     status: 'En cours' | 'Traité' | 'Refusé'
 }
+
+export interface ReportModel {
+    reason: string,
+    date: Date,
+    description: string,
+    match: string,
+    player: string
+}

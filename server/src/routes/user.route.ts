@@ -146,4 +146,16 @@ router.delete('/:id', UserMiddleware.getUser, async (req: Request, res: Response
 
 });
 
+router.post('/status', UserMiddleware.getUser, UserMiddleware.verifyStatus, async (req: Request, res: Response) => {
+    const { status } = req.body
+    const controller: UserController = new UserController();
+    const user: User = req.user;
+    try {
+        const updatedStatus = await controller.updateAccountStatus(user.id, parseInt(status));
+        res.status(200).json({ status: updatedStatus, success: true });
+    } catch (error) {
+        res.status(500).json({ error: "Le serveur a rencontré un problème. "});
+    }
+});
+
 export default router;

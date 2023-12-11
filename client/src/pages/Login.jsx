@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
+import Curtain from '../components/Curtain';
 import { useAuth } from "../contexts/AuthContext";
 import { useLoginModel } from "../hooks/useLoginModel";
 import '../styles/Login.scss';
@@ -44,15 +45,17 @@ const Login = () => {
   }
 
   return  (
-    <div id="loginpage">
-      <h1>Se connecter.</h1>
-      <p className='error'>{error}</p>
-      <Form onSubmit={handleSubmit} className="login-form">
-        <Input onChange={handleChange} type="text" label="Nom d'utilisateur" id="login" placeholder="john.doe" />
-        <Input onChange={handleChange} type="password" label="Mot de passe" id="password" placeholder="••••••••••••" />
-        {loading ? <Button loading={true} id="loginbtn" label="C'est parti !" /> : <Button id="loginbtn" label="C'est parti !" />}
-      </Form>
-    </div>
+    <Curtain label="Connexion">
+      <div id="loginpage">
+        <h1>Se connecter.</h1>
+        <p className='error'>{error}</p>
+        <Form onSubmit={handleSubmit} className="login-form">
+          <Input onChange={handleChange} type="text" label="Nom d'utilisateur" id="login" placeholder="john.doe" />
+          <Input onChange={handleChange} type="password" label="Mot de passe" id="password" placeholder="••••••••••••" />
+          {loading ? <Button loading={true} id="loginbtn" label="C'est parti !" /> : <Button id="loginbtn" label="C'est parti !" />}
+        </Form>
+      </div>
+    </Curtain>
   )
 }
 
